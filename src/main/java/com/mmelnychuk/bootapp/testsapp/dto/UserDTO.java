@@ -1,44 +1,11 @@
-package com.mmelnychuk.bootapp.testsapp.model;
+package com.mmelnychuk.bootapp.testsapp.dto;
 
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.List;
-import java.util.Set;
+public class UserDTO {
 
-@Entity
-@Table(name = "users")
-public class User implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
-
-    @Column(name = "email")
     private String email;
-
-    @Column(name = "password")
     private String password;
-
-    @Column(name = "first_name")
     private String firstName;
-
-    @Column(name = "last_name")
     private String lastName;
-
-    @OneToMany(mappedBy="owner", cascade=CascadeType.ALL)
-    private Set<TestBase> testBases;
-
-    public User() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getEmail() {
         return email;

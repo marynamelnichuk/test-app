@@ -1,7 +1,9 @@
 package com.mmelnychuk.bootapp.testsapp;
 
 import com.mmelnychuk.bootapp.testsapp.model.User;
+import com.mmelnychuk.bootapp.testsapp.service.TestBaseService;
 import com.mmelnychuk.bootapp.testsapp.service.UserService;
+import com.mmelnychuk.bootapp.testsapp.service.impl.TestBaseServiceImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -16,16 +18,18 @@ public class TestsAppApplication {
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context = SpringApplication.run(TestsAppApplication.class, args);
 		System.out.println("Add users");
-		UserService userService = (UserService) context.getBean("userServiceImpl");
+		TestBaseServiceImpl testBaseService = (TestBaseServiceImpl) context.getBean("testBaseServiceImpl");
+		System.out.println(testBaseService.getTestBases(1));
+		/*UserService userService = (UserService) context.getBean("userServiceImpl");
 		User user = new User();
 		user.setFirstName("Maryna");
 		user.setLastName("Melnychuk");
-		user.setEmail("email");
+		user.setEmail("email3");
 		user.setPassword("password");
 		userService.saveUser(user);
 		List<User> users = userService.getAllUsers();
 		System.out.println("Get users");
-		users.forEach(u -> System.out.println("EMAIL: " + user.getEmail()));
+		users.forEach(u -> System.out.println("EMAIL: " + user.getEmail()));*/
 	}
 
 }
