@@ -4,8 +4,13 @@ import com.mmelnychuk.bootapp.testsapp.dto.TestBaseDTO;
 import com.mmelnychuk.bootapp.testsapp.model.TestBase;
 import org.springframework.stereotype.Component;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 
 @Component
@@ -18,7 +23,8 @@ public class TestBaseMapper {
         testBase.setCategory(testBaseDTO.getCategory());
         testBase.setCategory(testBaseDTO.getCategory());
         testBase.setDescription(testBaseDTO.getDescription());
-        LocalDateTime date = LocalDateTime.ofInstant(testBaseDTO.getCreatedDate().toInstant(), ZoneId.systemDefault());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime date = LocalDateTime.parse(testBaseDTO.getCreatedDate(), formatter);
         testBase.setCreatedDate(date);
         return testBase;
     }
@@ -30,7 +36,8 @@ public class TestBaseMapper {
         testBaseDTO.setCategory(testBase.getCategory());
         testBaseDTO.setDescription(testBase.getCategory());
         testBaseDTO.setDescription(testBase.getDescription());
-        Date date = Date.from(testBase.getCreatedDate().atZone(ZoneId.systemDefault()).toInstant());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String date = formatter.format(testBase.getCreatedDate());
         testBaseDTO.setCreatedDate(date);
         testBaseDTO.setOwnerId(testBase.getOwner().getId());
         return testBaseDTO;

@@ -5,6 +5,7 @@ import com.mmelnychuk.bootapp.testsapp.model.User;
 import com.mmelnychuk.bootapp.testsapp.repository.TestBaseRepository;
 import com.mmelnychuk.bootapp.testsapp.repository.UserRepository;
 import com.mmelnychuk.bootapp.testsapp.service.TestBaseService;
+import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,8 @@ public class TestBaseServiceImpl implements TestBaseService {
 
     @Override
     public TestBase saveTestBase(TestBase testBase, Integer ownerId) {
+        System.out.println("SAVE TEST BASE" );
+        System.out.println("OWNER ID " + ownerId);
         User user = userRepository.findById(ownerId).get();
         System.out.println("USER" + user);
         testBase.setOwner(user);

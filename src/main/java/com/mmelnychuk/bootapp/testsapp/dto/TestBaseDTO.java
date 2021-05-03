@@ -9,7 +9,7 @@ public class TestBaseDTO {
     private String name;
     private String description;
     private String category;
-    private Date createdDate;
+    private String createdDate;
     private Integer ownerId;
 
     public Integer getId() {
@@ -44,11 +44,11 @@ public class TestBaseDTO {
         this.category = category;
     }
 
-    public Date getCreatedDate() {
+    public String getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
     }
 
