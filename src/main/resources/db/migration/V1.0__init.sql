@@ -79,7 +79,6 @@ CREATE TABLE test_variants (
 
 CREATE TABLE test_results (
 	id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    user_id INT NOT NULL,
     assignment_id INT NOT NULL,
     estimation INT NOT NULL,
     completed_date DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -90,7 +89,7 @@ CREATE TABLE test_results_tasks (
 	id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 	test_result_id INT NOT NULL,
     task_id INT NOT NULL,
-    response_id INT NULL,
+    response_id INT NOT NULL,
     CONSTRAINT FK_TestResults_TestResultsTasks FOREIGN KEY (test_result_id) REFERENCES test_results(id),
     CONSTRAINT FK_TestBaseTasks_TestResultsTasks FOREIGN KEY (task_id) REFERENCES test_base_tasks(id)
 );
