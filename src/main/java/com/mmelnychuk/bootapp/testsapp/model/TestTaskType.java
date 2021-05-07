@@ -13,7 +13,8 @@ public class TestTaskType {
     private Integer id;
 
     @Column(name = "type")
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private TaskType type;
 
     @OneToMany(mappedBy="type", cascade=CascadeType.ALL)
     private Set<TestBaseTask> testBaseTasks;
@@ -28,11 +29,11 @@ public class TestTaskType {
         this.id = id;
     }
 
-    public String getType() {
+    public TaskType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(TaskType type) {
         this.type = type;
     }
 

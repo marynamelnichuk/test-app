@@ -50,4 +50,9 @@ public class TestBaseServiceImpl implements TestBaseService {
         repository.delete(testBaseToDelete);
     }
 
+    @Override
+    public TestBase getTestBaseById(Integer testBaseId) {
+        return repository.findById(testBaseId).orElseThrow();
+    }
+
 }

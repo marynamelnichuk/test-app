@@ -13,4 +13,5 @@ public interface TestBaseService {
 
     void deleteTestBase(Integer ownerId, Integer testBaseId);
 
+    TestBase getTestBaseById(Integer testBaseId);
 }

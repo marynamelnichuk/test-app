@@ -4,6 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "test_base_tasks")
@@ -25,9 +26,15 @@ public class TestBaseTask {
     @JoinColumn(name="task_type_id")
     private TestTaskType type;
 
+    @Column(name = "mark")
+    private Integer mark;
+
     @Column(name = "created_date")
     @DateTimeFormat(pattern = "hh:mm:ss dd/MM/yyyy")
     protected LocalDateTime createdDate;
+
+    @OneToMany(mappedBy="testBaseTask", cascade=CascadeType.ALL)
+    protected Set<TestBaseTaskOption> testBaseTaskOptions;
 
     @PrePersist
     public void beforeSave() {
@@ -74,5 +81,21 @@ public class TestBaseTask {
 
     public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public Integer getMark() {
+        return mark;
+    }
+
+    public void setMark(Integer mark) {
+        this.mark = mark;
+    }
+
+    public Set<TestBaseTaskOption> getTestBaseTaskOptions() {
+        return testBaseTaskOptions;
+    }
+
+    public void setTestBaseTaskOptions(Set<TestBaseTaskOption> testBaseTaskOptions) {
+        this.testBaseTaskOptions = testBaseTaskOptions;
     }
 }
