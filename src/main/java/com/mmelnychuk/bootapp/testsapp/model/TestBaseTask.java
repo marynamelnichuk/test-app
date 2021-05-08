@@ -36,6 +36,9 @@ public class TestBaseTask {
     @OneToMany(mappedBy="testBaseTask", cascade=CascadeType.ALL)
     protected Set<TestBaseTaskOption> testBaseTaskOptions;
 
+    @OneToMany(mappedBy="testBaseTask", cascade=CascadeType.ALL)
+    protected Set<TestTask> testTasks;
+
     @PrePersist
     public void beforeSave() {
         createdDate = LocalDateTime.now();
@@ -97,5 +100,13 @@ public class TestBaseTask {
 
     public void setTestBaseTaskOptions(Set<TestBaseTaskOption> testBaseTaskOptions) {
         this.testBaseTaskOptions = testBaseTaskOptions;
+    }
+
+    public Set<TestTask> getTestTasks() {
+        return testTasks;
+    }
+
+    public void setTestTasks(Set<TestTask> testTasks) {
+        this.testTasks = testTasks;
     }
 }

@@ -29,6 +29,9 @@ public class User implements Serializable {
     @OneToMany(mappedBy="owner", cascade=CascadeType.ALL)
     private Set<TestBase> testBases;
 
+    @OneToMany(mappedBy="user", cascade=CascadeType.ALL)
+    private Set<TestAssignment> assignments;
+
     public User() {
     }
 

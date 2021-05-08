@@ -1,6 +1,7 @@
 package com.mmelnychuk.bootapp.testsapp.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "tests")
@@ -23,6 +24,12 @@ public class Test {
     @ManyToOne
     @JoinColumn(name="test_base_id")
     protected TestBase testBase;
+
+    @OneToMany(mappedBy="test", cascade=CascadeType.ALL)
+    protected Set<TestTask> testTasks;
+
+    @OneToMany(mappedBy="test", cascade=CascadeType.ALL)
+    protected Set<TestAssignment> assignments;
 
     Test() {}
 
@@ -64,5 +71,13 @@ public class Test {
 
     public void setTestBase(TestBase testBase) {
         this.testBase = testBase;
+    }
+
+    public Set<TestTask> getTestTasks() {
+        return testTasks;
+    }
+
+    public void setTestTasks(Set<TestTask> testTasks) {
+        this.testTasks = testTasks;
     }
 }
