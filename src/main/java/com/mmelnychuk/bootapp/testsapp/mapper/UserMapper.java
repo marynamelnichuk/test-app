@@ -1,6 +1,6 @@
 package com.mmelnychuk.bootapp.testsapp.mapper;
 
-import com.mmelnychuk.bootapp.testsapp.dto.UserDTO;
+import com.mmelnychuk.bootapp.testsapp.dto.read.UserDTO;
 import com.mmelnychuk.bootapp.testsapp.model.User;
 import org.springframework.stereotype.Component;
 

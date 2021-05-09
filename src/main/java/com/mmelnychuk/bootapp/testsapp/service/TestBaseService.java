@@ -11,6 +11,8 @@ public interface TestBaseService {
 
     TestBase getTestBaseById(Integer ownerId, Integer testBaseId);
 
+    TestBase getTestBaseByName(String testBaseName);
+
     void deleteTestBase(Integer ownerId, Integer testBaseId);
 
     TestBase getTestBaseById(Integer testBaseId);

@@ -2,7 +2,6 @@ package com.mmelnychuk.bootapp.testsapp.controller;
 
 import com.mmelnychuk.bootapp.testsapp.dto.create.TestBaseTaskCreateDTO;
 import com.mmelnychuk.bootapp.testsapp.dto.read.TestBaseTaskDTO;
-import com.mmelnychuk.bootapp.testsapp.model.TestBaseTask;
 import com.mmelnychuk.bootapp.testsapp.service.TestBaseTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/{testBaseId}/testBaseTasks")
 public class TestBaseTaskController {
 

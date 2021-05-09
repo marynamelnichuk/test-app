@@ -12,6 +12,9 @@ public class TestTask {
     @Column(name = "id")
     private Integer id;
 
+    @Column(name = "mark")
+    private Double mark;
+
     @ManyToOne
     @JoinColumn(name="test_id")
     protected Test test;
@@ -31,6 +34,22 @@ public class TestTask {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Double getMark() {
+        return mark;
+    }
+
+    public void setMark(Double mark) {
+        this.mark = mark;
+    }
+
+    public Set<TestVariant> getVariants() {
+        return variants;
+    }
+
+    public void setVariants(Set<TestVariant> variants) {
+        this.variants = variants;
     }
 
     public Test getTest() {

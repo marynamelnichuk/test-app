@@ -54,6 +54,7 @@ public class TestBaseController {
 
     @DeleteMapping(value="/{testBaseId}", produces = "application/json")
     public ResponseEntity deleteTestBase(@PathVariable Integer ownerId, @PathVariable Integer testBaseId) {
+        System.out.println("DELTE TEST BAASE");
         testBaseService.deleteTestBase(ownerId, testBaseId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

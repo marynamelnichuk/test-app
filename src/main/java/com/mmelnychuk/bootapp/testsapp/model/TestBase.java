@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -35,7 +36,7 @@ public class TestBase implements Serializable {
     protected LocalDateTime createdDate;
 
     @OneToMany(mappedBy="testBase", cascade=CascadeType.ALL)
-    private Set<TestBaseTask> testBaseTasks;
+    private List<TestBaseTask> testBaseTasks;
 
     @OneToMany(mappedBy="testBase", cascade=CascadeType.ALL)
     private Set<Test> tests;
@@ -97,11 +98,11 @@ public class TestBase implements Serializable {
         this.category = category;
     }
 
-    public Set<TestBaseTask> getTestBaseTasks() {
+    public List<TestBaseTask> getTestBaseTasks() {
         return testBaseTasks;
     }
 
-    public void setTestBaseTasks(Set<TestBaseTask> testBaseTasks) {
+    public void setTestBaseTasks(List<TestBaseTask> testBaseTasks) {
         this.testBaseTasks = testBaseTasks;
     }
 

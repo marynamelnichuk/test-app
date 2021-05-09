@@ -54,6 +54,7 @@ CREATE TABLE tests_tasks (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     test_id INT NOT NULL,
     test_task_id INT NOT NULL,
+    mark DOUBLE NOT NULL,
     CONSTRAINT FK_Tests_TestsTasks FOREIGN KEY (test_id) REFERENCES tests(id),
     CONSTRAINT FK_TestBaseTask_TestsTasks FOREIGN KEY (test_task_id) REFERENCES test_base_tasks(id)
 );

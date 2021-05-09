@@ -31,7 +31,7 @@ public class Test {
     @OneToMany(mappedBy="test", cascade=CascadeType.ALL)
     protected Set<TestAssignment> assignments;
 
-    Test() {}
+    public Test() {}
 
     public Integer getId() {
         return id;

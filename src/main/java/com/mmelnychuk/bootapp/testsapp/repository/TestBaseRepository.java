@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface TestBaseRepository extends JpaRepository<TestBase, Integer> {
@@ -16,5 +17,8 @@ public interface TestBaseRepository extends JpaRepository<TestBase, Integer> {
 
     @Query("SELECT testbase FROM TestBase testbase WHERE testbase.owner.id = :ownerId AND testbase.id = :testBaseId")
     TestBase getTestBaseById(@Param("ownerId") Integer ownerId, @Param("testBaseId") Integer testBaseId);
+
+    @Query("SELECT testbase FROM TestBase testbase WHERE testbase.name = :testBaseName")
+    Optional<TestBase> getTestBaseByName(@Param("testBaseName") String testBaseName);
 
 }

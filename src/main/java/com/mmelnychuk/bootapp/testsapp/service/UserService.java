@@ -1,5 +1,6 @@
 package com.mmelnychuk.bootapp.testsapp.service;
 
+import com.mmelnychuk.bootapp.testsapp.dto.read.UserDTO;
 import com.mmelnychuk.bootapp.testsapp.model.User;
 import java.util.List;
 
@@ -9,5 +10,5 @@ public interface UserService {
 
     void saveUser(User user);
 
-    User getUserByEmailAndPassword(String email, String password);
+    UserDTO getUserByEmailAndPassword(String email, String password) throws Throwable;
 }

@@ -1,6 +1,6 @@
-package com.mmelnychuk.bootapp.testsapp.dto;
+package com.mmelnychuk.bootapp.testsapp.dto.create;
 
-public class SigninUserDTO {
+public class SignInUserDTO {
 
     private String email;
     private String password;

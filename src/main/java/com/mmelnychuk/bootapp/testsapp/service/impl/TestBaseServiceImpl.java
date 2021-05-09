@@ -45,6 +45,11 @@ public class TestBaseServiceImpl implements TestBaseService {
     }
 
     @Override
+    public TestBase getTestBaseByName(String testBaseName) {
+        return repository.getTestBaseByName(testBaseName).orElseThrow();
+    }
+
+    @Override
     public void deleteTestBase(Integer ownerId, Integer testBaseId) {
         TestBase testBaseToDelete = getTestBaseById(ownerId, testBaseId);
         repository.delete(testBaseToDelete);
