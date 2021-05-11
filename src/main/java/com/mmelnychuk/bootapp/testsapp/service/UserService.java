@@ -8,7 +8,7 @@ public interface UserService {
 
     List<User> getAllUsers();
 
-    void saveUser(User user);
+    UserDTO saveUser(UserDTO user);
 
     UserDTO getUserByEmailAndPassword(String email, String password) throws Throwable;
 }

@@ -1,4 +1,4 @@
-package com.mmelnychuk.bootapp.testsapp.dto;
+package com.mmelnychuk.bootapp.testsapp.dto.read;
 
 import java.time.LocalDate;
 import java.util.Date;

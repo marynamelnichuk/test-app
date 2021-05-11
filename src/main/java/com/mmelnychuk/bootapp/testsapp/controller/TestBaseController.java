@@ -1,7 +1,7 @@
 package com.mmelnychuk.bootapp.testsapp.controller;
 
 import com.mmelnychuk.bootapp.testsapp.dto.TestBaseCreateDTO;
-import com.mmelnychuk.bootapp.testsapp.dto.TestBaseDTO;
+import com.mmelnychuk.bootapp.testsapp.dto.read.TestBaseDTO;
 import com.mmelnychuk.bootapp.testsapp.mapper.TestBaseMapper;
 import com.mmelnychuk.bootapp.testsapp.model.TestBase;
 import com.mmelnychuk.bootapp.testsapp.service.TestBaseService;

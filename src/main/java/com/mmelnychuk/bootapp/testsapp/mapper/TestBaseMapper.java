@@ -1,17 +1,11 @@
 package com.mmelnychuk.bootapp.testsapp.mapper;
 
-import com.mmelnychuk.bootapp.testsapp.dto.TestBaseDTO;
+import com.mmelnychuk.bootapp.testsapp.dto.read.TestBaseDTO;
 import com.mmelnychuk.bootapp.testsapp.model.TestBase;
 import org.springframework.stereotype.Component;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
 
 @Component
 public class TestBaseMapper {

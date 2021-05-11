@@ -2,7 +2,6 @@ package com.mmelnychuk.bootapp.testsapp.controller;
 
 import com.mmelnychuk.bootapp.testsapp.dto.create.SignInUserDTO;
 import com.mmelnychuk.bootapp.testsapp.dto.read.UserDTO;
-import com.mmelnychuk.bootapp.testsapp.mapper.UserMapper;
 import com.mmelnychuk.bootapp.testsapp.model.User;
 import com.mmelnychuk.bootapp.testsapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,20 +11,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
-import static org.springframework.http.HttpStatus.UNAUTHORIZED;
-
 @RestController
 @RequestMapping("/")
 @CrossOrigin(origins = "*")
 public class UserController {
 
     private final UserService userService;
-  //  private final UserMapper userMapper;
 
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
-        //this.userMapper = userMapper;
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
@@ -35,8 +30,8 @@ public class UserController {
 
     @PostMapping(value = "signUp", produces = "application/json")
     public ResponseEntity<UserDTO> signUpUser(@RequestBody UserDTO user) {
-       // userService.saveUser(userMapper.mapUser(user));
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
+        UserDTO savedUser = userService.saveUser(user);
+        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
     @PostMapping(value = "/signIn", produces = "application/json")

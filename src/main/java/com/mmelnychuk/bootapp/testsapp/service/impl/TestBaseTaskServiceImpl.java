@@ -62,8 +62,12 @@ public class TestBaseTaskServiceImpl implements TestBaseTaskService {
         correctAnswer.setOptionValue(dto.getCorrectQuestion());
         correctAnswer.setCorrect(true);
         correctAnswer.setTestBaseTask(savedTask);
-        TestBaseTaskOption savedCorrectOption = testBaseTaskOptionRepository.save(correctAnswer);
-        options.add(savedCorrectOption);
+        if(!dto.getType().equals(TaskType.MULTIPLE_CHOICE.name())) {
+            TestBaseTaskOption savedCorrectOption = testBaseTaskOptionRepository.save(correctAnswer);
+            options.add(savedCorrectOption);
+        }else {
+            //TODO
+        }
         if(!dto.getType().equals(TaskType.SHORT_ANSWER.name())) {
             for(String optionName : dto.getOptions()) {
                 TestBaseTaskOption answer = new TestBaseTaskOption();

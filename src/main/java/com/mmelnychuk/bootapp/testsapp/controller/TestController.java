@@ -31,6 +31,12 @@ public class TestController {
         return new ResponseEntity<>(tests, HttpStatus.OK);
     }
 
+    @GetMapping(value="/{testId}", produces = "application/json")
+    public ResponseEntity<TestDTO> getTest(@PathVariable Integer userId, @PathVariable Integer testId) {
+        TestDTO test = service.getTest(testId);
+        return new ResponseEntity<>(test, HttpStatus.OK);
+    }
+
     @PostMapping(produces = "application/json")
     public ResponseEntity<TestDTO> createTest(@PathVariable Integer userId, @RequestBody TestCreateDTO test) {
         TestDTO savedTest = service.addTest(test, userId);

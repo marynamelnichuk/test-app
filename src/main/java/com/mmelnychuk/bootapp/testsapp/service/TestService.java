@@ -13,4 +13,6 @@ public interface TestService {
     TestDTO addTest(TestCreateDTO test, Integer ownerId);
 
     void deleteTest(Integer testId);
+
+    TestDTO getTest(Integer testId);
 }

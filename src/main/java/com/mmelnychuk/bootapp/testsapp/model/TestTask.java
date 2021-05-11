@@ -13,7 +13,7 @@ public class TestTask {
     private Integer id;
 
     @Column(name = "mark")
-    private Double mark;
+    private Integer mark;
 
     @ManyToOne
     @JoinColumn(name="test_id")
@@ -36,11 +36,11 @@ public class TestTask {
         this.id = id;
     }
 
-    public Double getMark() {
+    public Integer getMark() {
         return mark;
     }
 
-    public void setMark(Double mark) {
+    public void setMark(Integer mark) {
         this.mark = mark;
     }
 
