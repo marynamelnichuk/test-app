@@ -11,9 +11,7 @@ import com.mmelnychuk.bootapp.testsapp.service.TestBaseService;
 import com.mmelnychuk.bootapp.testsapp.service.TestBaseTaskService;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -58,24 +56,44 @@ public class TestBaseTaskServiceImpl implements TestBaseTaskService {
         TestBaseTask savedTask = repository.save(taskToSave);
         Set<TestBaseTaskOption> options = new HashSet<>();
 
-        TestBaseTaskOption correctAnswer = new TestBaseTaskOption();
-        correctAnswer.setOptionValue(dto.getCorrectQuestion());
-        correctAnswer.setCorrect(true);
-        correctAnswer.setTestBaseTask(savedTask);
+        List<String> correctAnswers;
         if(!dto.getType().equals(TaskType.MULTIPLE_CHOICE.name())) {
+            TestBaseTaskOption correctAnswer = new TestBaseTaskOption();
+            correctAnswer.setOptionValue(dto.getCorrectQuestion());
+            correctAnswer.setCorrect(true);
+            correctAnswer.setTestBaseTask(savedTask);
             TestBaseTaskOption savedCorrectOption = testBaseTaskOptionRepository.save(correctAnswer);
             options.add(savedCorrectOption);
         }else {
+            correctAnswers = Arrays.asList(dto.getCorrectQuestion().split(",", -1));
+            for(String correctAnswer : correctAnswers) {
+                TestBaseTaskOption correct = new TestBaseTaskOption();
+                correct.setOptionValue(correctAnswer);
+                correct.setCorrect(true);
+                correct.setTestBaseTask(savedTask);
+                TestBaseTaskOption savedCorrectOption = testBaseTaskOptionRepository.save(correct);
+                options.add(savedCorrectOption);
+            }
+            for(String optionName : dto.getOptions()) {
+                if(!correctAnswers.contains(optionName)) {
+                    TestBaseTaskOption answer = new TestBaseTaskOption();
+                    answer.setOptionValue(optionName);
+                    answer.setCorrect(false);
+                    answer.setTestBaseTask(savedTask);
+                    TestBaseTaskOption savedOption = testBaseTaskOptionRepository.save(answer);
+                    options.add(savedOption);
+                }
+            }
             //TODO
         }
         if(!dto.getType().equals(TaskType.SHORT_ANSWER.name())) {
             for(String optionName : dto.getOptions()) {
-                TestBaseTaskOption answer = new TestBaseTaskOption();
-                answer.setOptionValue(optionName);
-                answer.setCorrect(false);
-                answer.setTestBaseTask(savedTask);
-                TestBaseTaskOption savedOption = testBaseTaskOptionRepository.save(answer);
-                options.add(savedOption);
+                    TestBaseTaskOption answer = new TestBaseTaskOption();
+                    answer.setOptionValue(optionName);
+                    answer.setCorrect(false);
+                    answer.setTestBaseTask(savedTask);
+                    TestBaseTaskOption savedOption = testBaseTaskOptionRepository.save(answer);
+                    options.add(savedOption);
             }
         }
         savedTask.setTestBaseTaskOptions(options);

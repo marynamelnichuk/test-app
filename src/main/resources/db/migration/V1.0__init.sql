@@ -8,7 +8,7 @@ CREATE TABLE users (
 
 CREATE TABLE test_bases (
 	id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    name VARCHAR(100),
+    name VARCHAR(100) UNIQUE,
     category VARCHAR(100),
     description VARCHAR(1000),
     owner_id INT  NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE test_bases (
 
 CREATE TABLE test_tasks_types (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    type VARCHAR(100)
+    type VARCHAR(100) UNIQUE
 );
 
 CREATE TABLE test_base_tasks (
@@ -42,7 +42,7 @@ CREATE TABLE task_options (
 
 CREATE TABLE tests (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    test_name VARCHAR(255) NOT NULL,
+    test_name VARCHAR(255) NOT NULL UNIQUE,
     tasks_number INT NOT NULL,
     test_base_id INT NOT NULL,
     total_mark INT NOT NULL,

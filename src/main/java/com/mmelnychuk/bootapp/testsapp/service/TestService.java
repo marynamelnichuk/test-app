@@ -2,6 +2,7 @@ package com.mmelnychuk.bootapp.testsapp.service;
 
 import com.mmelnychuk.bootapp.testsapp.dto.create.TestCreateDTO;
 import com.mmelnychuk.bootapp.testsapp.dto.read.TestDTO;
+import com.mmelnychuk.bootapp.testsapp.model.Test;
 import com.mmelnychuk.bootapp.testsapp.model.TestBase;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface TestService {
     void deleteTest(Integer testId);
 
     TestDTO getTest(Integer testId);
+
+    Test getTestByName(String testName);
 }

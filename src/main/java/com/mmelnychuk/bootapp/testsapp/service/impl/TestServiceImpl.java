@@ -87,4 +87,9 @@ public class TestServiceImpl implements TestService {
         Test test = repository.findById(testId).orElseThrow();
         return mapper.mapToDTO(test);
     }
+
+    @Override
+    public Test getTestByName(String testName) {
+        return repository.findOneByName(testName).orElseThrow();
+    }
 }

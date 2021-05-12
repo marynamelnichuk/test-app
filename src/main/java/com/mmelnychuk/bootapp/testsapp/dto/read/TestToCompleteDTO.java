@@ -1,12 +1,12 @@
 package com.mmelnychuk.bootapp.testsapp.dto.read;
 
-public class TestAssignmentDTO {
+public class TestToCompleteDTO {
 
     private Integer id;
     private String userEmail;
     private String testName;
     private Integer testId;
-    private String status;
+    private Integer maxMark;
     private String dueDate;
 
     public Integer getId() {
@@ -41,12 +41,12 @@ public class TestAssignmentDTO {
         this.testId = testId;
     }
 
-    public String getStatus() {
-        return status;
+    public Integer getMaxMark() {
+        return maxMark;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setMaxMark(Integer maxMark) {
+        this.maxMark = maxMark;
     }
 
     public String getDueDate() {
