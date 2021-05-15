@@ -1,5 +1,7 @@
 package com.mmelnychuk.bootapp.testsapp.service.impl;
 
+import com.mmelnychuk.bootapp.testsapp.exceptions.AlreadyExistException;
+import com.mmelnychuk.bootapp.testsapp.exceptions.NotFoundException;
 import com.mmelnychuk.bootapp.testsapp.mapper.TestMapper;
 import com.mmelnychuk.bootapp.testsapp.model.Test;
 import com.mmelnychuk.bootapp.testsapp.model.TestBase;
@@ -39,52 +41,58 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    public TestDTO addTest(TestCreateDTO test, Integer ownerId) {
+    public TestDTO addTest(TestCreateDTO test, Integer ownerId) throws AlreadyExistException {
         Test testToSave = new Test();
         testToSave.setName(test.getName());
         testToSave.setTasksNumber(test.getTasksNumber());
         testToSave.setTotalMark(test.getTotalMark());
         TestBase testBase = testBaseService.getTestBaseByName(test.getTestBaseName());
         testToSave.setTestBase(testBase);
-        Test savedTest = repository.save(testToSave);
+        try {
+            Test savedTest = repository.save(testToSave);
 
-        List<TestBaseTask> testBaseTasks = testBase.getTestBaseTasks();
-        Set<Integer> indexes = new HashSet<>();
-        Random rand = new Random();
-        while (indexes.size() != test.getTasksNumber()) {
-            indexes.add(rand.nextInt(testBaseTasks.size()-1));
-        }
+            List<TestBaseTask> testBaseTasks = testBase.getTestBaseTasks();
+            Set<Integer> indexes = new HashSet<>();
+            Random rand = new Random();
+            while (indexes.size() != test.getTasksNumber()) {
+                indexes.add(rand.nextInt(testBaseTasks.size() - 1));
+            }
 
-        List<TestTask> testTasks = new ArrayList<>();
-        Integer sum = 0;
-        for(Integer index : indexes) {
-            System.out.println("index : " + index);
-            TestTask testTask = new TestTask();
-            testTask.setTest(savedTest);
-            TestBaseTask testBaseTask = testBaseTasks.get(index);
-            testTask.setTestBaseTask(testBaseTask);
-            sum += testBaseTask.getMark();
-            testTasks.add(testTask);
-        }
-        Integer onePoint = (Integer) (test.getTotalMark()/sum);
+            List<TestTask> testTasks = new ArrayList<>();
+            Integer sum = 0;
+            for (Integer index : indexes) {
+                System.out.println("index : " + index);
+                TestTask testTask = new TestTask();
+                testTask.setTest(savedTest);
+                TestBaseTask testBaseTask = testBaseTasks.get(index);
+                testTask.setTestBaseTask(testBaseTask);
+                sum += testBaseTask.getMark();
+                testTasks.add(testTask);
+            }
+            Integer onePoint = (Integer) (test.getTotalMark() / sum);
 
-        for(TestTask testTask : testTasks) {
-            Integer mark = testTask.getTestBaseTask().getMark();
-            testTask.setMark(mark*onePoint);
-            testTaskRepository.save(testTask);
+            for (TestTask testTask : testTasks) {
+                Integer mark = testTask.getTestBaseTask().getMark();
+                testTask.setMark(mark * onePoint);
+                testTaskRepository.save(testTask);
+            }
+            return mapper.mapToDTO(savedTest);
+        }catch (Exception e) {
+            throw new AlreadyExistException("Test with such data already exist.");
         }
-        return mapper.mapToDTO(savedTest);
     }
 
     @Override
-    public void deleteTest(Integer testId) {
-        Test test = repository.findById(testId).orElseThrow();
+    public void deleteTest(Integer testId) throws NotFoundException {
+        Test test = repository.findById(testId).orElseThrow(() ->
+                new NotFoundException(String.format("Test with id %s not found.", testId)));
         repository.delete(test);
     }
 
     @Override
-    public TestDTO getTest(Integer testId) {
-        Test test = repository.findById(testId).orElseThrow();
+    public TestDTO getTest(Integer testId) throws NotFoundException {
+        Test test = repository.findById(testId).orElseThrow(() ->
+                new NotFoundException(String.format("Test with id %s not found.", testId)));
         return mapper.mapToDTO(test);
     }
 

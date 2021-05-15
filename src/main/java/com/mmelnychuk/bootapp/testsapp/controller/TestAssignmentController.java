@@ -3,6 +3,7 @@ package com.mmelnychuk.bootapp.testsapp.controller;
 import com.mmelnychuk.bootapp.testsapp.dto.create.TestAssignmentCreateDTO;
 import com.mmelnychuk.bootapp.testsapp.dto.read.TestAssignmentDTO;
 import com.mmelnychuk.bootapp.testsapp.dto.read.TestToCompleteDTO;
+import com.mmelnychuk.bootapp.testsapp.exceptions.AlreadyExistException;
 import com.mmelnychuk.bootapp.testsapp.exceptions.NotFoundException;
 import com.mmelnychuk.bootapp.testsapp.service.TestAssignmentService;
 import org.springframework.http.HttpStatus;
@@ -38,13 +39,22 @@ public class TestAssignmentController {
     @PostMapping(produces = "application/json")
     public ResponseEntity<TestAssignmentDTO> createTestAssignment(@RequestBody TestAssignmentCreateDTO assignment)
             throws NotFoundException {
-        TestAssignmentDTO savedAssignment = service.addTestAssignment(assignment);
+        TestAssignmentDTO savedAssignment = null;
+        try {
+            savedAssignment = service.addTestAssignment(assignment);
+        } catch (AlreadyExistException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(savedAssignment, HttpStatus.OK);
     }
 
     @DeleteMapping(value="/{testAssignmentId}", produces = "application/json")
-    public ResponseEntity deleteTestAssignment(@PathVariable Integer userId, @PathVariable Integer testAssignmentId) {
-        service.deleteTestAssignment(testAssignmentId);
+    public ResponseEntity<Void> deleteTestAssignment(@PathVariable Integer userId, @PathVariable Integer testAssignmentId) {
+        try {
+            service.deleteTestAssignment(testAssignmentId);
+        } catch (NotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

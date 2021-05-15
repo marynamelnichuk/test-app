@@ -1,9 +1,9 @@
 package com.mmelnychuk.bootapp.testsapp.controller;
 
-import com.mmelnychuk.bootapp.testsapp.dto.create.TestBaseTaskCreateDTO;
 import com.mmelnychuk.bootapp.testsapp.dto.create.TestCreateDTO;
-import com.mmelnychuk.bootapp.testsapp.dto.read.TestBaseTaskDTO;
 import com.mmelnychuk.bootapp.testsapp.dto.read.TestDTO;
+import com.mmelnychuk.bootapp.testsapp.exceptions.AlreadyExistException;
+import com.mmelnychuk.bootapp.testsapp.exceptions.NotFoundException;
 import com.mmelnychuk.bootapp.testsapp.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,19 +33,33 @@ public class TestController {
 
     @GetMapping(value="/{testId}", produces = "application/json")
     public ResponseEntity<TestDTO> getTest(@PathVariable Integer userId, @PathVariable Integer testId) {
-        TestDTO test = service.getTest(testId);
-        return new ResponseEntity<>(test, HttpStatus.OK);
+        TestDTO test = null;
+        try {
+            test = service.getTest(testId);
+            return new ResponseEntity<>(test, HttpStatus.OK);
+        } catch (NotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping(produces = "application/json")
     public ResponseEntity<TestDTO> createTest(@PathVariable Integer userId, @RequestBody TestCreateDTO test) {
-        TestDTO savedTest = service.addTest(test, userId);
+        TestDTO savedTest = null;
+        try {
+            savedTest = service.addTest(test, userId);
+        } catch (AlreadyExistException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(savedTest, HttpStatus.OK);
     }
 
     @DeleteMapping(value="/{testId}", produces = "application/json")
     public ResponseEntity<HttpStatus> deleteTest(@PathVariable Integer testId) {
-        service.deleteTest(testId);
+        try {
+            service.deleteTest(testId);
+        } catch (NotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

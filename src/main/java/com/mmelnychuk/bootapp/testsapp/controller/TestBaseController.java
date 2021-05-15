@@ -2,8 +2,8 @@ package com.mmelnychuk.bootapp.testsapp.controller;
 
 import com.mmelnychuk.bootapp.testsapp.dto.TestBaseCreateDTO;
 import com.mmelnychuk.bootapp.testsapp.dto.read.TestBaseDTO;
-import com.mmelnychuk.bootapp.testsapp.mapper.TestBaseMapper;
-import com.mmelnychuk.bootapp.testsapp.model.TestBase;
+import com.mmelnychuk.bootapp.testsapp.exceptions.AlreadyExistException;
+import com.mmelnychuk.bootapp.testsapp.exceptions.NotFoundException;
 import com.mmelnychuk.bootapp.testsapp.service.TestBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -20,42 +19,48 @@ import java.util.stream.Collectors;
 public class TestBaseController {
 
     private final TestBaseService testBaseService;
-    private final TestBaseMapper testBaseMapper;
 
     @Autowired
-    public TestBaseController(TestBaseService testBaseService, TestBaseMapper testBaseMapper) {
+    public TestBaseController(TestBaseService testBaseService) {
         this.testBaseService = testBaseService;
-        this.testBaseMapper = testBaseMapper;
     }
 
     @GetMapping(produces = "application/json")
     public ResponseEntity<Collection<TestBaseDTO>> getTestBases(@PathVariable Integer ownerId) {
-        List<TestBase> testBases = testBaseService.getTestBases(ownerId);
-        List<TestBaseDTO> testBaseDTOS = testBases.stream().map(testBaseMapper::mapTestBaseDTO).collect(Collectors.toList());;
+        List<TestBaseDTO> testBaseDTOS = testBaseService.getTestBases(ownerId);
         return new ResponseEntity<>(testBaseDTOS, HttpStatus.OK);
     }
 
     @GetMapping(value="/{testBaseId}", produces = "application/json")
-    public ResponseEntity<TestBaseDTO> getTestBase(@PathVariable Integer ownerId, @PathVariable Integer testBaseId) {
-        TestBase testBase = testBaseService.getTestBaseById(ownerId, testBaseId);
-        TestBaseDTO testBaseDTO = testBaseMapper.mapTestBaseDTO(testBase);
-        return new ResponseEntity<>(testBaseDTO, HttpStatus.OK);
+    public ResponseEntity<TestBaseDTO> getTestBase(@PathVariable Integer testBaseId) {
+        try {
+            TestBaseDTO testBase = testBaseService.getTestBaseDtoById(testBaseId);
+            return new ResponseEntity<>(testBase, HttpStatus.OK);
+        } catch (NotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping(produces = "application/json")
     public ResponseEntity<TestBaseDTO> createTestBase(@PathVariable Integer ownerId, @RequestBody TestBaseCreateDTO testBase) {
-        TestBase testBaseToCreate = new TestBase();
-        testBaseToCreate.setName(testBase.getName());
-        testBaseToCreate.setCategory(testBase.getCategory());
-        testBaseToCreate.setDescription(testBase.getDescription());
-        TestBase createdTestBase = testBaseService.saveTestBase(testBaseToCreate, ownerId);
-        return new ResponseEntity<>(testBaseMapper.mapTestBaseDTO(createdTestBase), HttpStatus.OK);
+        TestBaseDTO createdTestBase = null;
+        try {
+            createdTestBase = testBaseService.saveTestBase(testBase, ownerId);
+        } catch (NotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (AlreadyExistException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(createdTestBase, HttpStatus.OK);
     }
 
     @DeleteMapping(value="/{testBaseId}", produces = "application/json")
-    public ResponseEntity deleteTestBase(@PathVariable Integer ownerId, @PathVariable Integer testBaseId) {
-        System.out.println("DELTE TEST BAASE");
-        testBaseService.deleteTestBase(ownerId, testBaseId);
+    public ResponseEntity<Void> deleteTestBase(@PathVariable Integer testBaseId) {
+        try {
+            testBaseService.deleteTestBase(testBaseId);
+        } catch (NotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

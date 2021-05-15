@@ -23,11 +23,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<Collection<User>> getUsers() {
-        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
-    }
-
     @PostMapping(value = "signUp", produces = "application/json")
     public ResponseEntity<UserDTO> signUpUser(@RequestBody UserDTO user) {
         UserDTO savedUser = userService.saveUser(user);

@@ -22,9 +22,8 @@ public class TestTaskController {
     }
 
     @GetMapping(produces = "application/json")
-    public ResponseEntity<Collection<TestTaskDTO>> getTests(@PathVariable Integer testId) {
+    public ResponseEntity<Collection<TestTaskDTO>> getTestTasks(@PathVariable Integer testId) {
         List<TestTaskDTO> testTasks = service.getTestTasks(testId);
-        System.out.println("GET " + testId);
         return new ResponseEntity<>(testTasks, HttpStatus.OK);
     }
 

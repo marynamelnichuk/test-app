@@ -1,19 +1,23 @@
 package com.mmelnychuk.bootapp.testsapp.service;
 
+import com.mmelnychuk.bootapp.testsapp.dto.TestBaseCreateDTO;
+import com.mmelnychuk.bootapp.testsapp.dto.read.TestBaseDTO;
+import com.mmelnychuk.bootapp.testsapp.exceptions.AlreadyExistException;
+import com.mmelnychuk.bootapp.testsapp.exceptions.NotFoundException;
 import com.mmelnychuk.bootapp.testsapp.model.TestBase;
 import java.util.List;
 
 public interface TestBaseService {
 
-    List<TestBase> getTestBases(Integer ownerId);
+    List<TestBaseDTO> getTestBases(Integer ownerId);
 
-    TestBase saveTestBase(TestBase testBase, Integer ownerId);
+    TestBaseDTO saveTestBase(TestBaseCreateDTO testBaseDTO, Integer ownerId) throws NotFoundException, AlreadyExistException;
 
-    TestBase getTestBaseById(Integer ownerId, Integer testBaseId);
+    TestBase getTestBaseById(Integer testBaseId) throws NotFoundException;
 
     TestBase getTestBaseByName(String testBaseName);
 
-    void deleteTestBase(Integer ownerId, Integer testBaseId);
+    void deleteTestBase(Integer testBaseId) throws NotFoundException;
 
-    TestBase getTestBaseById(Integer testBaseId);
+    TestBaseDTO getTestBaseDtoById(Integer testBaseId) throws NotFoundException;
 }

@@ -2,6 +2,7 @@ package com.mmelnychuk.bootapp.testsapp.service.impl;
 
 import com.mmelnychuk.bootapp.testsapp.dto.create.TestBaseTaskCreateDTO;
 import com.mmelnychuk.bootapp.testsapp.dto.read.TestBaseTaskDTO;
+import com.mmelnychuk.bootapp.testsapp.exceptions.NotFoundException;
 import com.mmelnychuk.bootapp.testsapp.mapper.TestBaseTaskMapper;
 import com.mmelnychuk.bootapp.testsapp.model.*;
 import com.mmelnychuk.bootapp.testsapp.repository.TestBaseTaskOptionRepository;
@@ -44,7 +45,7 @@ public class TestBaseTaskServiceImpl implements TestBaseTaskService {
     }
 
     @Override
-    public TestBaseTaskDTO addTestBaseTask(Integer testBaseId, TestBaseTaskCreateDTO dto) {
+    public TestBaseTaskDTO addTestBaseTask(Integer testBaseId, TestBaseTaskCreateDTO dto) throws NotFoundException {
         TestBaseTask taskToSave = new TestBaseTask();
         taskToSave.setQuestion(dto.getQuestion());
         TestTaskType type = testTaskTypeRepository.findByType(TaskType.valueOf(dto.getType())).get();
@@ -54,6 +55,7 @@ public class TestBaseTaskServiceImpl implements TestBaseTaskService {
         taskToSave.setTestBase(testBase);
 
         TestBaseTask savedTask = repository.save(taskToSave);
+
         Set<TestBaseTaskOption> options = new HashSet<>();
 
         List<String> correctAnswers;
@@ -84,7 +86,6 @@ public class TestBaseTaskServiceImpl implements TestBaseTaskService {
                     options.add(savedOption);
                 }
             }
-            //TODO
         }
         if(!dto.getType().equals(TaskType.SHORT_ANSWER.name())) {
             for(String optionName : dto.getOptions()) {
@@ -101,12 +102,13 @@ public class TestBaseTaskServiceImpl implements TestBaseTaskService {
     }
 
     @Override
-    public TestBaseTask getTestBaseTask(Integer testBaseTaskId) {
-        return repository.findById(testBaseTaskId).orElseThrow();
+    public TestBaseTask getTestBaseTask(Integer testBaseTaskId) throws NotFoundException {
+        return repository.findById(testBaseTaskId).orElseThrow(() ->
+                new NotFoundException(String.format("Test base task with id %s not found.", testBaseTaskId)));
     }
 
     @Override
-    public void deleteTestBaseTask(Integer testBaseTaskId) {
+    public void deleteTestBaseTask(Integer testBaseTaskId) throws NotFoundException {
         TestBaseTask task = getTestBaseTask(testBaseTaskId);
         repository.delete(task);
     }

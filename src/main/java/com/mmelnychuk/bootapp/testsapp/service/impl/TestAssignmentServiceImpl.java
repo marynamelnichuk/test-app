@@ -3,6 +3,7 @@ package com.mmelnychuk.bootapp.testsapp.service.impl;
 import com.mmelnychuk.bootapp.testsapp.dto.create.TestAssignmentCreateDTO;
 import com.mmelnychuk.bootapp.testsapp.dto.read.TestAssignmentDTO;
 import com.mmelnychuk.bootapp.testsapp.dto.read.TestToCompleteDTO;
+import com.mmelnychuk.bootapp.testsapp.exceptions.AlreadyExistException;
 import com.mmelnychuk.bootapp.testsapp.exceptions.NotFoundException;
 import com.mmelnychuk.bootapp.testsapp.mapper.TestAssignmentMapper;
 import com.mmelnychuk.bootapp.testsapp.mapper.TestToCompleteMapper;
@@ -48,7 +49,7 @@ public class TestAssignmentServiceImpl implements TestAssignmentService {
     }
 
     @Override
-    public TestAssignmentDTO addTestAssignment(TestAssignmentCreateDTO createDTO) throws NotFoundException {
+    public TestAssignmentDTO addTestAssignment(TestAssignmentCreateDTO createDTO) throws NotFoundException, AlreadyExistException {
         TestAssignment assignment = new TestAssignment();
         assignment.setStatus(AssignmentStatus.ASSIGNED);
         User userToAssign = userService.getUserByEmail(createDTO.getUserEmail());
@@ -59,13 +60,19 @@ public class TestAssignmentServiceImpl implements TestAssignmentService {
         LocalDate date = LocalDate.parse(createDTO.getDueDate(), formatter);
         LocalDateTime dateTime = date.atStartOfDay();
         assignment.setDueDate(dateTime);
-        TestAssignment savedAssignment = repository.save(assignment);
-        return mapper.mapToDto(savedAssignment);
+        try {
+            TestAssignment savedAssignment = repository.save(assignment);
+            return mapper.mapToDto(savedAssignment);
+        }catch (Exception e) {
+            throw new AlreadyExistException("Assigment with such data already exist.");
+        }
     }
 
     @Override
-    public void deleteTestAssignment(Integer testAssignmentId) {
-        TestAssignment assignment = repository.findById(testAssignmentId).orElseThrow();
+    public void deleteTestAssignment(Integer testAssignmentId) throws NotFoundException {
+        TestAssignment assignment = repository.findById(testAssignmentId)
+                .orElseThrow(() -> new NotFoundException(
+                        String.format("Assigment with id %s not found.", testAssignmentId)));
         repository.delete(assignment);
     }
 
