@@ -1,6 +1,5 @@
 package com.mmelnychuk.bootapp.testsapp.service.impl;
 
-import com.mmelnychuk.bootapp.testsapp.dto.read.TestBaseTaskDTO;
 import com.mmelnychuk.bootapp.testsapp.dto.read.TestTaskDTO;
 import com.mmelnychuk.bootapp.testsapp.mapper.TestBaseTaskMapper;
 import com.mmelnychuk.bootapp.testsapp.model.TestTask;

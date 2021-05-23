@@ -1,6 +1,6 @@
 package com.mmelnychuk.bootapp.testsapp.service;
 
-import com.mmelnychuk.bootapp.testsapp.dto.TestBaseCreateDTO;
+import com.mmelnychuk.bootapp.testsapp.dto.create.TestBaseCreateDTO;
 import com.mmelnychuk.bootapp.testsapp.dto.read.TestBaseDTO;
 import com.mmelnychuk.bootapp.testsapp.exceptions.AlreadyExistException;
 import com.mmelnychuk.bootapp.testsapp.exceptions.NotFoundException;

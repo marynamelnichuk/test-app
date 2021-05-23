@@ -4,6 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -34,7 +35,7 @@ public class TestBaseTask {
     protected LocalDateTime createdDate;
 
     @OneToMany(mappedBy="testBaseTask", cascade=CascadeType.ALL)
-    protected Set<TestBaseTaskOption> testBaseTaskOptions;
+    protected List<TestBaseTaskOption> testBaseTaskOptions;
 
     @OneToMany(mappedBy="testBaseTask", cascade=CascadeType.ALL)
     protected Set<TestTask> testTasks;
@@ -94,11 +95,11 @@ public class TestBaseTask {
         this.mark = mark;
     }
 
-    public Set<TestBaseTaskOption> getTestBaseTaskOptions() {
+    public List<TestBaseTaskOption> getTestBaseTaskOptions() {
         return testBaseTaskOptions;
     }
 
-    public void setTestBaseTaskOptions(Set<TestBaseTaskOption> testBaseTaskOptions) {
+    public void setTestBaseTaskOptions(List<TestBaseTaskOption> testBaseTaskOptions) {
         this.testBaseTaskOptions = testBaseTaskOptions;
     }
 

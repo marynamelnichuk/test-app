@@ -20,7 +20,7 @@ public class TestBaseTaskMapper {
         testBaseTaskDTO.setQuestion(testBaseTask.getQuestion());
         testBaseTaskDTO.setType(testBaseTask.getType().getType().name());
         testBaseTaskDTO.setMark(testBaseTask.getMark());
-        Set<TestBaseTaskOption> taskOptions = testBaseTask.getTestBaseTaskOptions();
+        List<TestBaseTaskOption> taskOptions = testBaseTask.getTestBaseTaskOptions();
         TestBaseTaskOption correctQuestion = taskOptions.stream()
                 .filter(TestBaseTaskOption::getCorrect).findFirst().orElseThrow();
         testBaseTaskDTO.setCorrectQuestion(correctQuestion.getOptionValue());

@@ -4,6 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "test_results")
@@ -24,6 +25,9 @@ public class TestResult {
     @Column(name = "completed_date")
     @DateTimeFormat(pattern = "hh:mm:ss dd/MM/yyyy")
     protected LocalDateTime completedDate;
+
+    @OneToMany(mappedBy="testResult", cascade=CascadeType.ALL)
+    protected List<TestResultTask> testResultTasks;
 
     public Integer getId() {
         return id;

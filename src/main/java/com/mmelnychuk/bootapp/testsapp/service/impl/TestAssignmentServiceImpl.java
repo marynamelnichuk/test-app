@@ -7,11 +7,9 @@ import com.mmelnychuk.bootapp.testsapp.exceptions.AlreadyExistException;
 import com.mmelnychuk.bootapp.testsapp.exceptions.NotFoundException;
 import com.mmelnychuk.bootapp.testsapp.mapper.TestAssignmentMapper;
 import com.mmelnychuk.bootapp.testsapp.mapper.TestToCompleteMapper;
-import com.mmelnychuk.bootapp.testsapp.model.AssignmentStatus;
-import com.mmelnychuk.bootapp.testsapp.model.Test;
-import com.mmelnychuk.bootapp.testsapp.model.TestAssignment;
-import com.mmelnychuk.bootapp.testsapp.model.User;
+import com.mmelnychuk.bootapp.testsapp.model.*;
 import com.mmelnychuk.bootapp.testsapp.repository.TestAssignmentRepository;
+import com.mmelnychuk.bootapp.testsapp.repository.TestVariantRepository;
 import com.mmelnychuk.bootapp.testsapp.service.TestAssignmentService;
 import com.mmelnychuk.bootapp.testsapp.service.TestService;
 import com.mmelnychuk.bootapp.testsapp.service.UserService;
@@ -20,7 +18,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,15 +29,18 @@ public class TestAssignmentServiceImpl implements TestAssignmentService {
     private final TestToCompleteMapper testToCompleteMapper;
     private final UserService userService;
     private final TestService testService;
+    private final TestVariantRepository testVariantRepository;
 
     public TestAssignmentServiceImpl(TestAssignmentRepository repository, TestAssignmentMapper mapper,
                                      TestToCompleteMapper testToCompleteMapper,
-                                     UserService userService, TestService testService) {
+                                     UserService userService, TestService testService,
+                                     TestVariantRepository testVariantRepository) {
         this.repository = repository;
         this.mapper = mapper;
         this.testToCompleteMapper = testToCompleteMapper;
         this.userService = userService;
         this.testService = testService;
+        this.testVariantRepository = testVariantRepository;
     }
 
     @Override
@@ -62,10 +63,30 @@ public class TestAssignmentServiceImpl implements TestAssignmentService {
         assignment.setDueDate(dateTime);
         try {
             TestAssignment savedAssignment = repository.save(assignment);
+            generateTestVariant(savedAssignment);
             return mapper.mapToDto(savedAssignment);
         }catch (Exception e) {
             throw new AlreadyExistException("Assigment with such data already exist.");
         }
+    }
+
+    private void generateTestVariant(TestAssignment assignment) {
+        Test test = assignment.getTest();
+        List<TestTask> testTasks = test.getTestTasks();
+        ArrayList<Integer> indexes = new ArrayList<Integer>();
+        for (int i=0; i<test.getTasksNumber(); i++) {
+            indexes.add(i);
+        }
+        Collections.shuffle(indexes);
+        int order = 1;
+        for (Integer index : indexes) {
+            TestVariant variant = new TestVariant();
+            variant.setAssignment(assignment);
+            variant.setOrder(order++);
+            variant.setTestTask(testTasks.get(index));
+            testVariantRepository.save(variant);
+        }
+        //TODO: додати ще зміну варіантів за місцем у завданнях
     }
 
     @Override

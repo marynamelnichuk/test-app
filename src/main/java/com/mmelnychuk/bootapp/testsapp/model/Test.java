@@ -1,6 +1,7 @@
 package com.mmelnychuk.bootapp.testsapp.model;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -26,7 +27,7 @@ public class Test {
     protected TestBase testBase;
 
     @OneToMany(mappedBy="test", cascade=CascadeType.ALL)
-    protected Set<TestTask> testTasks;
+    protected List<TestTask> testTasks;
 
     @OneToMany(mappedBy="test", cascade=CascadeType.ALL)
     protected Set<TestAssignment> assignments;
@@ -73,11 +74,11 @@ public class Test {
         this.testBase = testBase;
     }
 
-    public Set<TestTask> getTestTasks() {
+    public List<TestTask> getTestTasks() {
         return testTasks;
     }
 
-    public void setTestTasks(Set<TestTask> testTasks) {
+    public void setTestTasks(List<TestTask> testTasks) {
         this.testTasks = testTasks;
     }
 }

@@ -52,11 +52,11 @@ public class TestServiceImpl implements TestService {
             Test savedTest = repository.save(testToSave);
 
             List<TestBaseTask> testBaseTasks = testBase.getTestBaseTasks();
-            Set<Integer> indexes = new HashSet<>();
-            Random rand = new Random();
-            while (indexes.size() != test.getTasksNumber()) {
-                indexes.add(rand.nextInt(testBaseTasks.size() - 1));
+            ArrayList<Integer> indexes = new ArrayList<Integer>();
+            for (int i=0; i<test.getTasksNumber(); i++) {
+                indexes.add(i);
             }
+            Collections.shuffle(indexes);
 
             List<TestTask> testTasks = new ArrayList<>();
             Integer sum = 0;

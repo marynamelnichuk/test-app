@@ -56,7 +56,7 @@ public class TestBaseTaskServiceImpl implements TestBaseTaskService {
 
         TestBaseTask savedTask = repository.save(taskToSave);
 
-        Set<TestBaseTaskOption> options = new HashSet<>();
+        List<TestBaseTaskOption> options = new ArrayList<>();
 
         List<String> correctAnswers;
         if(!dto.getType().equals(TaskType.MULTIPLE_CHOICE.name())) {

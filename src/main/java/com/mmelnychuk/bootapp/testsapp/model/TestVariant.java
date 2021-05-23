@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "test_variants")
-public class TestVariant {
+public class TestVariant implements Comparable<TestVariant> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,5 +52,14 @@ public class TestVariant {
 
     public void setOrder(Integer order) {
         this.order = order;
+    }
+
+    @Override
+    public int compareTo(TestVariant o) {
+        if(this.getOrder() >= o.getOrder()) {
+            return 1;
+        }else {
+            return -1;
+        }
     }
 }

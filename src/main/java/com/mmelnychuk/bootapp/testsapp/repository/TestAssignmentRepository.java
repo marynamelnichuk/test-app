@@ -14,7 +14,8 @@ public interface TestAssignmentRepository extends JpaRepository<TestAssignment, 
     @Query("SELECT assignment FROM TestAssignment assignment WHERE assignment.test.testBase.owner.id = :userId")
     List<TestAssignment> findAllByUserId(@Param("userId") Integer userId);
 
-    @Query("SELECT assignment FROM TestAssignment assignment WHERE assignment.user.id = :userId")
+    @Query("SELECT assignment FROM TestAssignment assignment WHERE assignment.user.id = :userId " +
+            "and (assignment.status = 'ASSIGNED' OR assignment.status = 'STARTED')")
     List<TestAssignment> findAllByUserIdToComplete(@Param("userId") Integer userId);
 
 }

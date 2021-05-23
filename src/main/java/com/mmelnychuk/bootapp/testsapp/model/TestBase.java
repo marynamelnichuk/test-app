@@ -41,6 +41,9 @@ public class TestBase implements Serializable {
     @OneToMany(mappedBy="testBase", cascade=CascadeType.ALL)
     private Set<Test> tests;
 
+    @OneToMany(mappedBy="testBaseTask", cascade=CascadeType.ALL)
+    protected List<TestResultTask> testResultTasks;
+
     @PrePersist
     public void beforeSave() {
         createdDate = LocalDateTime.now();

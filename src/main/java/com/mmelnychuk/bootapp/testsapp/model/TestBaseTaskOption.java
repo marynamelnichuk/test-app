@@ -1,6 +1,7 @@
 package com.mmelnychuk.bootapp.testsapp.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "task_options")
@@ -20,6 +21,9 @@ public class TestBaseTaskOption {
     @ManyToOne
     @JoinColumn(name="test_base_task_id")
     private TestBaseTask testBaseTask;
+
+    @OneToMany(mappedBy="response", cascade=CascadeType.ALL)
+    private List<TestResultTask> testResultTasks;
 
     public Integer getId() {
         return id;

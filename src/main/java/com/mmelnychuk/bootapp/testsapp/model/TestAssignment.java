@@ -4,6 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -32,10 +33,10 @@ public class TestAssignment {
     protected LocalDateTime dueDate;
 
     @OneToMany(mappedBy="assignment", cascade=CascadeType.ALL)
-    protected Set<TestVariant> variants;
+    protected List<TestVariant> variants;
 
     @OneToMany(mappedBy="assignment", cascade=CascadeType.ALL)
-    protected Set<TestResult> results;
+    protected List<TestResult> results;
 
     public Integer getId() {
         return id;
@@ -75,5 +76,21 @@ public class TestAssignment {
 
     public void setDueDate(LocalDateTime dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public List<TestVariant> getVariants() {
+        return variants;
+    }
+
+    public void setVariants(List<TestVariant> variants) {
+        this.variants = variants;
+    }
+
+    public List<TestResult> getResults() {
+        return results;
+    }
+
+    public void setResults(List<TestResult> results) {
+        this.results = results;
     }
 }
