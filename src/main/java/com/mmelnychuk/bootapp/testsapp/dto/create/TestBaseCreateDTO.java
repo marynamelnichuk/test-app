@@ -1,8 +1,8 @@
 package com.mmelnychuk.bootapp.testsapp.dto.create;
 
-import java.time.LocalDate;
+import com.mmelnychuk.bootapp.testsapp.dto.DTO;
 
-public class TestBaseCreateDTO {
+public class TestBaseCreateDTO implements DTO {
 
     private String name;
     private String category;

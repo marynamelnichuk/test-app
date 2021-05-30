@@ -86,7 +86,6 @@ public class TestAssignmentServiceImpl implements TestAssignmentService {
             variant.setTestTask(testTasks.get(index));
             testVariantRepository.save(variant);
         }
-        //TODO: додати ще зміну варіантів за місцем у завданнях
     }
 
     @Override

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.time.format.DateTimeFormatter;
 
 @Component
-public class TestAssignmentMapper {
+public class TestAssignmentMapper implements Mapper {
 
     public TestAssignmentDTO mapToDto(TestAssignment assignment) {
         TestAssignmentDTO dto = new TestAssignmentDTO();
@@ -17,11 +17,10 @@ public class TestAssignmentMapper {
         dto.setTestId(test.getId());
         dto.setTestName(test.getName());
         dto.setStatus(assignment.getStatus().name());
-        dto.setUserEmail(test.getTestBase().getOwner().getEmail());
+        dto.setUserEmail(assignment.getUser().getEmail());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String date = formatter.format(assignment.getDueDate());
         dto.setDueDate(date);
         return dto;
     }
-
 }

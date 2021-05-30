@@ -1,14 +1,16 @@
 package com.mmelnychuk.bootapp.testsapp.dto.create;
 
+import com.mmelnychuk.bootapp.testsapp.dto.DTO;
+
 import java.util.List;
 
-public class TestBaseTaskCreateDTO {
+public class TestBaseTaskCreateDTO implements DTO {
 
     private String question;
     private String type;
     private Integer mark;
     private List<String> options;
-    private String correctQuestion;
+    private String correctOption;
 
     public String getQuestion() {
         return question;
@@ -42,11 +44,11 @@ public class TestBaseTaskCreateDTO {
         this.options = options;
     }
 
-    public String getCorrectQuestion() {
-        return correctQuestion;
+    public String getCorrectOption() {
+        return correctOption;
     }
 
-    public void setCorrectQuestion(String correctQuestion) {
-        this.correctQuestion = correctQuestion;
+    public void setCorrectOption(String correctOption) {
+        this.correctOption = correctOption;
     }
 }

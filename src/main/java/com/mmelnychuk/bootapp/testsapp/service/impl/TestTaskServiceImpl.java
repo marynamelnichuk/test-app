@@ -33,6 +33,5 @@ public class TestTaskServiceImpl  implements TestTaskService {
             dtos.add(dto);
         }
         return dtos;
-        //return repository.findAllTestTasksByTestId(testId);
     }
 }

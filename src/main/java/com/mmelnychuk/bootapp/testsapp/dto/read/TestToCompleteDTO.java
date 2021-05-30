@@ -1,6 +1,8 @@
 package com.mmelnychuk.bootapp.testsapp.dto.read;
 
-public class TestToCompleteDTO {
+import com.mmelnychuk.bootapp.testsapp.dto.DTO;
+
+public class TestToCompleteDTO implements DTO {
 
     private Integer id;
     private String userEmail;

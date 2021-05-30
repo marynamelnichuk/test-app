@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @Service
 public class TestBaseServiceImpl implements TestBaseService {
 
@@ -35,7 +34,7 @@ public class TestBaseServiceImpl implements TestBaseService {
     @Override
     public List<TestBaseDTO> getTestBases(Integer ownerId) {
         List<TestBase> testBases = repository.findAllByOwnerId(ownerId);
-        return testBases.stream().map(mapper::mapTestBaseDTO).collect(Collectors.toList());
+        return testBases.stream().map(mapper::mapToDto).collect(Collectors.toList());
     }
 
     @Override
@@ -49,7 +48,7 @@ public class TestBaseServiceImpl implements TestBaseService {
         testBaseToCreate.setOwner(user);
         try {
             TestBase savedTestBase = repository.save(testBaseToCreate);
-            return mapper.mapTestBaseDTO(savedTestBase);
+            return mapper.mapToDto(savedTestBase);
         } catch (Exception e) {
             throw new AlreadyExistException("Test base with such data already exist.");
         }
@@ -74,7 +73,7 @@ public class TestBaseServiceImpl implements TestBaseService {
 
     @Override
     public TestBaseDTO getTestBaseDtoById(Integer testBaseId) throws NotFoundException {
-        return mapper.mapTestBaseDTO(getTestBaseById(testBaseId));
+        return mapper.mapToDto(getTestBaseById(testBaseId));
     }
 
 }

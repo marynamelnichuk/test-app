@@ -1,6 +1,5 @@
 package com.mmelnychuk.bootapp.testsapp.controller;
 
-import com.mmelnychuk.bootapp.testsapp.dto.read.TestDTO;
 import com.mmelnychuk.bootapp.testsapp.dto.read.TestTaskDTO;
 import com.mmelnychuk.bootapp.testsapp.service.TestTaskService;
 import org.springframework.http.HttpStatus;
@@ -26,5 +25,4 @@ public class TestTaskController {
         List<TestTaskDTO> testTasks = service.getTestTasks(testId);
         return new ResponseEntity<>(testTasks, HttpStatus.OK);
     }
-
 }

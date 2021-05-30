@@ -5,7 +5,6 @@ import com.mmelnychuk.bootapp.testsapp.dto.read.TestDTO;
 import com.mmelnychuk.bootapp.testsapp.exceptions.AlreadyExistException;
 import com.mmelnychuk.bootapp.testsapp.exceptions.NotFoundException;
 import com.mmelnychuk.bootapp.testsapp.model.Test;
-import com.mmelnychuk.bootapp.testsapp.model.TestBase;
 
 import java.util.List;
 

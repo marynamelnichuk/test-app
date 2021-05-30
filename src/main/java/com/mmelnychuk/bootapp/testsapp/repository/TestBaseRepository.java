@@ -15,9 +15,6 @@ public interface TestBaseRepository extends JpaRepository<TestBase, Integer> {
     @Query("SELECT testbase FROM TestBase testbase WHERE testbase.owner.id = :ownerId")
     List<TestBase> findAllByOwnerId(@Param("ownerId") Integer ownerId);
 
-    @Query("SELECT testbase FROM TestBase testbase WHERE testbase.owner.id = :ownerId AND testbase.id = :testBaseId")
-    TestBase getTestBaseById(@Param("ownerId") Integer ownerId, @Param("testBaseId") Integer testBaseId);
-
     @Query("SELECT testbase FROM TestBase testbase WHERE testbase.name = :testBaseName")
     Optional<TestBase> getTestBaseByName(@Param("testBaseName") String testBaseName);
 

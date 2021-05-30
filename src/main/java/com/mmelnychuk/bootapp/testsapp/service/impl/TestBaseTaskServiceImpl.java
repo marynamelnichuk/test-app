@@ -53,48 +53,33 @@ public class TestBaseTaskServiceImpl implements TestBaseTaskService {
         taskToSave.setMark(dto.getMark());
         TestBase testBase = testBaseService.getTestBaseById(testBaseId);
         taskToSave.setTestBase(testBase);
-
         TestBaseTask savedTask = repository.save(taskToSave);
 
         List<TestBaseTaskOption> options = new ArrayList<>();
-
-        List<String> correctAnswers;
-        if(!dto.getType().equals(TaskType.MULTIPLE_CHOICE.name())) {
+        if (!dto.getType().equals(TaskType.MULTIPLE_CHOICE.name())) {
             TestBaseTaskOption correctAnswer = new TestBaseTaskOption();
-            correctAnswer.setOptionValue(dto.getCorrectQuestion());
+            correctAnswer.setOptionValue(dto.getCorrectOption());
             correctAnswer.setCorrect(true);
             correctAnswer.setTestBaseTask(savedTask);
-            TestBaseTaskOption savedCorrectOption = testBaseTaskOptionRepository.save(correctAnswer);
-            options.add(savedCorrectOption);
-        }else {
-            correctAnswers = Arrays.asList(dto.getCorrectQuestion().split(",", -1));
-            for(String correctAnswer : correctAnswers) {
-                TestBaseTaskOption correct = new TestBaseTaskOption();
-                correct.setOptionValue(correctAnswer);
-                correct.setCorrect(true);
-                correct.setTestBaseTask(savedTask);
-                TestBaseTaskOption savedCorrectOption = testBaseTaskOptionRepository.save(correct);
-                options.add(savedCorrectOption);
+            TestBaseTaskOption savedOptionCorrect = testBaseTaskOptionRepository.save(correctAnswer);
+            options.add(savedOptionCorrect);
+            for (String optionName : dto.getOptions()) {
+                TestBaseTaskOption answer = new TestBaseTaskOption();
+                answer.setOptionValue(optionName);
+                answer.setCorrect(false);
+                answer.setTestBaseTask(savedTask);
+                TestBaseTaskOption savedOption = testBaseTaskOptionRepository.save(answer);
+                options.add(savedOption);
             }
-            for(String optionName : dto.getOptions()) {
-                if(!correctAnswers.contains(optionName)) {
-                    TestBaseTaskOption answer = new TestBaseTaskOption();
-                    answer.setOptionValue(optionName);
-                    answer.setCorrect(false);
-                    answer.setTestBaseTask(savedTask);
-                    TestBaseTaskOption savedOption = testBaseTaskOptionRepository.save(answer);
-                    options.add(savedOption);
-                }
-            }
-        }
-        if(!dto.getType().equals(TaskType.SHORT_ANSWER.name())) {
-            for(String optionName : dto.getOptions()) {
-                    TestBaseTaskOption answer = new TestBaseTaskOption();
-                    answer.setOptionValue(optionName);
-                    answer.setCorrect(false);
-                    answer.setTestBaseTask(savedTask);
-                    TestBaseTaskOption savedOption = testBaseTaskOptionRepository.save(answer);
-                    options.add(savedOption);
+        } else {
+            List<String> correctAnswers = Arrays.asList(dto.getCorrectOption().split(","));
+            for (String optionName : dto.getOptions()) {
+                TestBaseTaskOption answer = new TestBaseTaskOption();
+                answer.setOptionValue(optionName);
+                answer.setTestBaseTask(savedTask);
+                answer.setCorrect(correctAnswers.contains(optionName));
+                TestBaseTaskOption savedOption = testBaseTaskOptionRepository.save(answer);
+                options.add(savedOption);
             }
         }
         savedTask.setTestBaseTaskOptions(options);

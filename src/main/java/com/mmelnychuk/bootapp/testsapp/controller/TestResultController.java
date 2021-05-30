@@ -1,9 +1,7 @@
 package com.mmelnychuk.bootapp.testsapp.controller;
 
-import com.mmelnychuk.bootapp.testsapp.dto.read.TestBaseDTO;
 import com.mmelnychuk.bootapp.testsapp.dto.read.TestResultDTO;
 import com.mmelnychuk.bootapp.testsapp.exceptions.NotFoundException;
-import com.mmelnychuk.bootapp.testsapp.model.TestResult;
 import com.mmelnychuk.bootapp.testsapp.service.TestResultService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +22,19 @@ public class TestResultController {
     }
 
     @GetMapping(produces = "application/json")
-    public ResponseEntity<Collection<TestResultDTO>> getTestBase(@PathVariable Integer userId) {
+    public ResponseEntity<Collection<TestResultDTO>> getTestResults(@PathVariable Integer userId) {
         try {
             List<TestResultDTO> testResultDTOs = testResultService.getTestResults(userId);
+            return new ResponseEntity<>(testResultDTOs, HttpStatus.OK);
+        } catch (NotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping(value="/myResults", produces = "application/json")
+    public ResponseEntity<Collection<TestResultDTO>> getMyTestResults(@PathVariable Integer userId) {
+        try {
+            List<TestResultDTO> testResultDTOs = testResultService.getMyTestResults(userId);
             return new ResponseEntity<>(testResultDTOs, HttpStatus.OK);
         } catch (NotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

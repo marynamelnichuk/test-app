@@ -4,7 +4,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -49,9 +48,7 @@ public class TestBase implements Serializable {
         createdDate = LocalDateTime.now();
     }
 
-    public TestBase(){
-
-    }
+    public TestBase(){}
 
     public Integer getId() {
         return id;

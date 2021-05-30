@@ -3,6 +3,7 @@ package com.mmelnychuk.bootapp.testsapp.service.impl;
 import com.mmelnychuk.bootapp.testsapp.dto.create.TestResultCreateDTO;
 import com.mmelnychuk.bootapp.testsapp.dto.read.TestResultDTO;
 import com.mmelnychuk.bootapp.testsapp.dto.read.TestTaskDTO;
+import com.mmelnychuk.bootapp.testsapp.dto.read.TestToCompleteInfoDTO;
 import com.mmelnychuk.bootapp.testsapp.exceptions.NotFoundException;
 import com.mmelnychuk.bootapp.testsapp.mapper.TestBaseTaskMapper;
 import com.mmelnychuk.bootapp.testsapp.model.*;
@@ -77,18 +78,14 @@ public class CompleteTestServiceImpl implements CompleteTestService {
             TestResultCreateDTO testResultDto = testResults.stream()
                     .filter(el -> el.getTestTaskId().equals(testTask.getId())).findFirst().orElseThrow();
             TestBaseTask testBaseTask = testTask.getTestBaseTask();
-            if(testBaseTask.getType().getType().equals(TaskType.MULTIPLE_CHOICE)) {
-                System.out.println("MULTIPLE CHOICE " + testTask.getTestBaseTask().getQuestion());
-            }else {
+            if(!testBaseTask.getType().getType().equals(TaskType.MULTIPLE_CHOICE)) {
                 List<TestBaseTaskOption> options = testBaseTask.getTestBaseTaskOptions();
                 TestBaseTaskOption correctOption = options.stream()
                         .filter(TestBaseTaskOption::getCorrect).findFirst().orElseThrow();
                 Integer responseId = testResultDto.getAnswers().get(0);
                 if(correctOption.getId().equals(responseId)) {
                     estimation += testTask.getMark();
-                    System.out.println(testTask.getMark());
                     //правильна відповідь
-                    System.out.println(testTask.getTestBaseTask().getQuestion());
                 }
                 TestBaseTaskOption responseOption = options.stream()
                         .filter(el -> el.getId().equals(responseId)).findFirst().orElseThrow();
@@ -105,6 +102,8 @@ public class CompleteTestServiceImpl implements CompleteTestService {
             resultTask.setTestResult(savedTestResult);
         }
         testResultTaskRepository.saveAll(testResultTasksToSave);
+        assignment.setStatus(AssignmentStatus.COMPLETED);
+        assignmentRepository.save(assignment);
 
         TestResultDTO resultDTO = new TestResultDTO();
         resultDTO.setTestName(test.getName());
@@ -116,6 +115,17 @@ public class CompleteTestServiceImpl implements CompleteTestService {
         resultDTO.setMaxMark(test.getTotalMark());
         resultDTO.setUserEmail(assignment.getUser().getEmail());
         return resultDTO;
+    }
+
+    @Override
+    public TestToCompleteInfoDTO getShortTestInfo(Integer assigmentId) throws NotFoundException {
+        TestAssignment assignment = assignmentRepository.findById(assigmentId)
+                .orElseThrow(() -> new NotFoundException(""));
+        Test test = assignment.getTest();
+        TestToCompleteInfoDTO infoDTO = new TestToCompleteInfoDTO();
+        infoDTO.setTestName(test.getName());
+        infoDTO.setTestDescription(test.getTestBase().getDescription());
+        return infoDTO;
     }
 
 }

@@ -10,8 +10,11 @@ import java.util.List;
 public interface TestBaseTaskService {
 
     List<TestBaseTaskDTO> getTestBaseTasks(Integer testBaseId);
+
     TestBaseTaskDTO addTestBaseTask(Integer testBaseId, TestBaseTaskCreateDTO dto) throws NotFoundException;
+
     TestBaseTask getTestBaseTask(Integer testBaseTaskId) throws NotFoundException;
+
     void deleteTestBaseTask(Integer testBaseTaskId) throws NotFoundException;
 
 }

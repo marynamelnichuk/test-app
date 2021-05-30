@@ -9,8 +9,6 @@ import com.mmelnychuk.bootapp.testsapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -24,28 +22,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
-
-    @Override
     public UserDTO saveUser(UserDTO dto) {
         User user = userMapper.mapUser(dto);
         User savedUser = userRepository.save(user);
-        return userMapper.mapUserDTO(savedUser);
+        return userMapper.mapToDto(savedUser);
     }
 
     @Override
     public UserDTO getUserByEmailAndPassword(String email, String password) throws NotFoundException {
         User user = userRepository.findByEmailAndPassword(email, password).orElseThrow(
                 () -> new NotFoundException("User not found"));
-        return userMapper.mapUserDTO(user);
+        return userMapper.mapToDto(user);
     }
 
     @Override
     public User getUserByEmail(String email) throws NotFoundException {
-        User user = userRepository.findByEmail(email).orElseThrow(
+        return userRepository.findByEmail(email).orElseThrow(
                 () -> new NotFoundException("User not found"));
-        return user;
     }
 }

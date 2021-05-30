@@ -8,11 +8,10 @@ import com.mmelnychuk.bootapp.testsapp.model.TestBaseTaskOption;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
-public class TestBaseTaskMapper {
+public class TestBaseTaskMapper implements Mapper {
 
     public TestBaseTaskDTO mapToDTO(TestBaseTask testBaseTask) {
         TestBaseTaskDTO testBaseTaskDTO = new TestBaseTaskDTO();
@@ -21,9 +20,20 @@ public class TestBaseTaskMapper {
         testBaseTaskDTO.setType(testBaseTask.getType().getType().name());
         testBaseTaskDTO.setMark(testBaseTask.getMark());
         List<TestBaseTaskOption> taskOptions = testBaseTask.getTestBaseTaskOptions();
-        TestBaseTaskOption correctQuestion = taskOptions.stream()
-                .filter(TestBaseTaskOption::getCorrect).findFirst().orElseThrow();
-        testBaseTaskDTO.setCorrectQuestion(correctQuestion.getOptionValue());
+        List<TestBaseTaskOption> correctOptions = taskOptions.stream()
+                .filter(TestBaseTaskOption::getCorrect).collect(Collectors.toList());
+
+        if(!testBaseTask.getType().getType().equals(TaskType.MULTIPLE_CHOICE)) {
+            testBaseTaskDTO.setCorrectOption(correctOptions.get(0).getOptionValue());
+        }else {
+            StringBuilder stringBuilder = new StringBuilder("");
+            for(TestBaseTaskOption option : correctOptions) {
+                stringBuilder.append(option.getOptionValue()).append(",");
+            }
+            stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+            testBaseTaskDTO.setCorrectOption(stringBuilder.toString());
+        }
+
         if (!testBaseTask.getType().getType().equals(TaskType.SHORT_ANSWER)) {
             List<TestBaseTaskOptionDTO> options = taskOptions.stream()
                     .map(option -> new TestBaseTaskOptionDTO(option.getId(), option.getOptionValue()))
@@ -32,9 +42,4 @@ public class TestBaseTaskMapper {
         }
         return testBaseTaskDTO;
     }
-
-    public TestBaseTask mapToEntity(TestBaseTaskDTO dto) {
-        return null;
-    }
-
 }

@@ -1,6 +1,8 @@
 package com.mmelnychuk.bootapp.testsapp.dto.create;
 
-public class TestAssignmentCreateDTO {
+import com.mmelnychuk.bootapp.testsapp.dto.DTO;
+
+public class TestAssignmentCreateDTO implements DTO {
 
     private String testName;
     private String userEmail;

@@ -5,7 +5,7 @@ import com.mmelnychuk.bootapp.testsapp.model.User;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserMapper {
+public class UserMapper implements Mapper{
 
     public User mapUser(UserDTO userDTO) {
         User user = new User();
@@ -16,13 +16,13 @@ public class UserMapper {
         return user;
     }
 
-    public UserDTO mapUserDTO(User user) {
+    public UserDTO mapToDto(User user) {
         UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
         userDTO.setEmail(user.getEmail());
         userDTO.setPassword(user.getPassword());
         userDTO.setLastName(user.getLastName());
         userDTO.setFirstName(user.getFirstName());
         return userDTO;
     }
-
 }

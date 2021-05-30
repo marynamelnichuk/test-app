@@ -59,9 +59,8 @@ public class TestServiceImpl implements TestService {
             Collections.shuffle(indexes);
 
             List<TestTask> testTasks = new ArrayList<>();
-            Integer sum = 0;
+            int sum = 0;
             for (Integer index : indexes) {
-                System.out.println("index : " + index);
                 TestTask testTask = new TestTask();
                 testTask.setTest(savedTest);
                 TestBaseTask testBaseTask = testBaseTasks.get(index);
@@ -69,11 +68,11 @@ public class TestServiceImpl implements TestService {
                 sum += testBaseTask.getMark();
                 testTasks.add(testTask);
             }
-            Integer onePoint = (Integer) (test.getTotalMark() / sum);
+            Double onePoint = ((double)(test.getTotalMark())/sum);
 
             for (TestTask testTask : testTasks) {
-                Integer mark = testTask.getTestBaseTask().getMark();
-                testTask.setMark(mark * onePoint);
+                Double mark = (double) Math.round(testTask.getTestBaseTask().getMark());
+                testTask.setMark((int) (mark * onePoint));
                 testTaskRepository.save(testTask);
             }
             return mapper.mapToDTO(savedTest);

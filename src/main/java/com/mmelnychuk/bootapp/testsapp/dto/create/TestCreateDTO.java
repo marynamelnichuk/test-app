@@ -1,6 +1,8 @@
 package com.mmelnychuk.bootapp.testsapp.dto.create;
 
-public class TestCreateDTO {
+import com.mmelnychuk.bootapp.testsapp.dto.DTO;
+
+public class TestCreateDTO implements DTO {
 
     private String name;
     private Integer tasksNumber;

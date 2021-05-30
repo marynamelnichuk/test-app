@@ -1,6 +1,8 @@
 package com.mmelnychuk.bootapp.testsapp.dto.read;
 
-public class TestBaseTaskOptionDTO {
+import com.mmelnychuk.bootapp.testsapp.dto.DTO;
+
+public class TestBaseTaskOptionDTO implements DTO {
 
     private Integer id;
     private String option;

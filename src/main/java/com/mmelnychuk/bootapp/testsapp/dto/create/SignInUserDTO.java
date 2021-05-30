@@ -1,6 +1,8 @@
 package com.mmelnychuk.bootapp.testsapp.dto.create;
 
-public class SignInUserDTO {
+import com.mmelnychuk.bootapp.testsapp.dto.DTO;
+
+public class SignInUserDTO implements DTO {
 
     private String email;
     private String password;

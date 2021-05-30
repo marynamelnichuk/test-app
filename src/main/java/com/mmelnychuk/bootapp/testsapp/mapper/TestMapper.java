@@ -5,7 +5,7 @@ import com.mmelnychuk.bootapp.testsapp.model.Test;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TestMapper {
+public class TestMapper implements Mapper {
 
     public TestDTO mapToDTO(Test test) {
         TestDTO dto = new TestDTO();

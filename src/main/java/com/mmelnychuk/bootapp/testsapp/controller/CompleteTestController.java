@@ -3,6 +3,7 @@ package com.mmelnychuk.bootapp.testsapp.controller;
 import com.mmelnychuk.bootapp.testsapp.dto.create.TestResultCreateDTO;
 import com.mmelnychuk.bootapp.testsapp.dto.read.TestResultDTO;
 import com.mmelnychuk.bootapp.testsapp.dto.read.TestTaskDTO;
+import com.mmelnychuk.bootapp.testsapp.dto.read.TestToCompleteInfoDTO;
 import com.mmelnychuk.bootapp.testsapp.exceptions.NotFoundException;
 import com.mmelnychuk.bootapp.testsapp.service.CompleteTestService;
 import org.springframework.http.HttpStatus;
@@ -23,15 +24,24 @@ public class CompleteTestController {
         this.completeTestService = completeTestService;
     }
 
-    @GetMapping(produces = "application/json")
-    public ResponseEntity<Collection<TestTaskDTO>> getTestTasksToComplete(@PathVariable Integer assigmentId) {
-        List<TestTaskDTO> testTasks = null;
+    @GetMapping(value="/testInfo", produces = "application/json")
+    public ResponseEntity<TestToCompleteInfoDTO> getShortTestInfo(@PathVariable Integer assigmentId) {
         try {
-            testTasks = completeTestService.getTestTaskToComplete(assigmentId);
+            TestToCompleteInfoDTO infoDTO = completeTestService.getShortTestInfo(assigmentId);
+            return new ResponseEntity<>(infoDTO, HttpStatus.OK);
         } catch (NotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(testTasks, HttpStatus.OK);
+    }
+
+    @GetMapping(produces = "application/json")
+    public ResponseEntity<Collection<TestTaskDTO>> getTestTasksToComplete(@PathVariable Integer assigmentId) {
+        try {
+            List<TestTaskDTO> testTasks = completeTestService.getTestTaskToComplete(assigmentId);
+            return new ResponseEntity<>(testTasks, HttpStatus.OK);
+        } catch (NotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping(produces = "application/json")

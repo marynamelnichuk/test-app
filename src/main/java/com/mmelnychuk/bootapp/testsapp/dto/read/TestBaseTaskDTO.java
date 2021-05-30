@@ -9,7 +9,7 @@ public class TestBaseTaskDTO {
     private String type;
     private Integer mark;
     private List<TestBaseTaskOptionDTO> options;
-    private String correctQuestion;
+    private String correctOption;
 
     public Integer getId() {
         return id;
@@ -51,11 +51,11 @@ public class TestBaseTaskDTO {
         this.options = options;
     }
 
-    public String getCorrectQuestion() {
-        return correctQuestion;
+    public String getCorrectOption() {
+        return correctOption;
     }
 
-    public void setCorrectQuestion(String correctQuestion) {
-        this.correctQuestion = correctQuestion;
+    public void setCorrectOption(String correctOption) {
+        this.correctOption = correctOption;
     }
 }

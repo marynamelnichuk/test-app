@@ -1,9 +1,8 @@
 package com.mmelnychuk.bootapp.testsapp.dto.read;
 
-import java.time.LocalDate;
-import java.util.Date;
+import com.mmelnychuk.bootapp.testsapp.dto.DTO;
 
-public class TestBaseDTO {
+public class TestBaseDTO implements DTO {
 
     private Integer id;
     private String name;

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.time.format.DateTimeFormatter;
 
 @Component
-public class TestToCompleteMapper {
+public class TestToCompleteMapper implements Mapper {
 
     public TestToCompleteDTO mapToDto(TestAssignment assignment) {
         TestToCompleteDTO dto = new TestToCompleteDTO();
